@@ -1,0 +1,26 @@
+﻿@model  Plutonium.ViewModels.CrudViewModel
+ 
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>@Model.CRUDModel.Label</h1>
+
+ 
+          <table id="memberlist">
+       <tbody>
+        @foreach (Plutonium.Classes.CRUDField c in Model.CRUDFields)
+         {
+          <tr>
+              
+                 <td>@c.Label</td>
+                 <td>@c.Name</td>
+                 <td>@c.Ordering</td>
+                 <td>@c.IsVisible</td>                 
+                 <td>@c.Type</td>
+           
+          </tr>
+         }
+       </tbody>
+       </table>
+
