@@ -1,6 +1,6 @@
 using System;
 
-namespace Plutonium.Models
+namespace Plutonium.ViewModels
 {
     public class ErrorViewModel
     {

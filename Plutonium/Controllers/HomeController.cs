@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;  
 using Plutonium.Models;
+using Plutonium.ViewModels;
 using System.Diagnostics; 
 
 namespace Plutonium.Controllers
