@@ -1,0 +1,6 @@
+CREATE TABLE [Buttons] (
+    "id" INTEGER NOT NULL CONSTRAINT "PK_Buttons" PRIMARY KEY AUTOINCREMENT,
+    "Name" TEXT NOT NULL,
+    "PreUrl" TEXT NULL,
+    "PostUrl" TEXT NULL
+)

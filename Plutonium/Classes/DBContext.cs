@@ -27,6 +27,7 @@ namespace Plutonium.Classes
             modelBuilder.Entity<Link>().ToTable("Links", "dbo");
             modelBuilder.Entity<Button>().ToTable("Buttons", "dbo");
             modelBuilder.Entity<MenuItem>().ToTable("MenuItems", "dbo");
+            modelBuilder.Entity<CRUDLookup>().ToTable("tblLookup", "dbo");
 
             modelBuilder.Entity<Link>(entity =>
             {

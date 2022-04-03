@@ -8,26 +8,20 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <header>
+      <header>
+
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Plutonium</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Plutonium</a>
                 </div>
+                <ul class="nav navbar-nav" id="navbar_list">
+                </ul>
+
             </div>
         </nav>
+
+
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -43,6 +37,65 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    
+    <script>
+        $(document).ready(function () {
+            //  var link = $("<li class='nav-item'><a class='nav-link text-dark' href = 'https://localhost:44323/Home/Reader'>Reader22</a></li>");
+            //  $("#navbar_list").append(link);
+            //      }
+            $.ajax({
+                url: "https://localhost:44312/MenuItem/GetItems"
+            }).then(function (data) {
+                for (let i = 0; i < data.records.length; i++) {
+                //    if (data.records[i].parentId == null) {
+                //        var link = $("<li class='nav-item'><a class='nav-link text-dark' href = '" + data.records[i].url + "'>" + data.records[i].name + "</a></li>");
+                //        $("#navbar_list").append(link);
+                //    }
+                    var pid = data.records[i].id;
+                    //var clildren = data.records.filter(child => child.parentId <= pid);
+                  //  var clildren = data.records.filter(checkChild);
+                    if (data.records[i].parentId == null) { // No Parent - Top Level
+                        var clildren = data.records.filter(
+                            function (e) {
+                                return e.parentId == pid;
+                            }
+                        );
+                        if (clildren.length != 0) {
+                            // Parent has children
+                            // add the Parent as a dropdown
+                            var link = $("<li class='nav-item dropdown'>" +
+                                "<a class='nav-link dropdown-toggle text-dark' data-toggle='dropdown' href = '#' role='button' aria-haspopup='true' aria-expanded='false'>" + data.records[i].name + "<span class='caret'></span></a>" +
+                                "<div class='dropdown-menu'>" +
+                                childDropdownTiems(clildren) +
+                                // "<a class='dropdown-item' href='#'>Action</a>" +
+                             //  "<ul class='dropdown-item text-dark'><li><a class='nav-link text-dark' href='child.Url'>childName</a></li></ul>" +
+                                "</div>" +
+                                "</li>");
+// add the children
+                            
+                  
+                            $("#navbar_list").append(link);
+                        }
+                        else {
+                            // Parent has no children
+                          //  var link = $("<li class='nav-item'><a class='nav-link text-dark' href = '" + data.records[i].url + "'>" + data.records[i].name + "</a></li>");
+                            var link = $("<li><a class='nav-link text-dark' href = '" + data.records[i].url + "'>" + data.records[i].name + "</a></li>");
+                            $("#navbar_list").append(link);
+                        }
+                    }
+            
+                }
+           });
+        });
+        function childDropdownTiems(childArr) {
+            var result ="";
+            for (let j = 0; j < childArr.length; j++) {
+                result += "<a class='dropdown-item' href='" + childArr[j].url + "'>" + childArr[j].name + "</a>";
+            }
+            return result;
+        }
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
