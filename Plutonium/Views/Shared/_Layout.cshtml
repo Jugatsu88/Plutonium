@@ -4,11 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Plutonium</title>
+    <link href="~/lib/jtable/themes/metro/lightgray/jtable.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-      <header>
+    <header>
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -35,10 +36,13 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jtable/jquery.jtable.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    
+
     <script>
         $(document).ready(function () {
             //  var link = $("<li class='nav-item'><a class='nav-link text-dark' href = 'https://localhost:44323/Home/Reader'>Reader22</a></li>");
@@ -48,13 +52,13 @@
                 url: "https://localhost:44312/MenuItem/GetItems"
             }).then(function (data) {
                 for (let i = 0; i < data.records.length; i++) {
-                //    if (data.records[i].parentId == null) {
-                //        var link = $("<li class='nav-item'><a class='nav-link text-dark' href = '" + data.records[i].url + "'>" + data.records[i].name + "</a></li>");
-                //        $("#navbar_list").append(link);
-                //    }
+                    //    if (data.records[i].parentId == null) {
+                    //        var link = $("<li class='nav-item'><a class='nav-link text-dark' href = '" + data.records[i].url + "'>" + data.records[i].name + "</a></li>");
+                    //        $("#navbar_list").append(link);
+                    //    }
                     var pid = data.records[i].id;
                     //var clildren = data.records.filter(child => child.parentId <= pid);
-                  //  var clildren = data.records.filter(checkChild);
+                    //  var clildren = data.records.filter(checkChild);
                     if (data.records[i].parentId == null) { // No Parent - Top Level
                         var clildren = data.records.filter(
                             function (e) {
@@ -69,33 +73,34 @@
                                 "<div class='dropdown-menu'>" +
                                 childDropdownTiems(clildren) +
                                 // "<a class='dropdown-item' href='#'>Action</a>" +
-                             //  "<ul class='dropdown-item text-dark'><li><a class='nav-link text-dark' href='child.Url'>childName</a></li></ul>" +
+                                //  "<ul class='dropdown-item text-dark'><li><a class='nav-link text-dark' href='child.Url'>childName</a></li></ul>" +
                                 "</div>" +
                                 "</li>");
-// add the children
-                            
-                  
+                            // add the children
+
+
                             $("#navbar_list").append(link);
                         }
                         else {
                             // Parent has no children
-                          //  var link = $("<li class='nav-item'><a class='nav-link text-dark' href = '" + data.records[i].url + "'>" + data.records[i].name + "</a></li>");
+                            //  var link = $("<li class='nav-item'><a class='nav-link text-dark' href = '" + data.records[i].url + "'>" + data.records[i].name + "</a></li>");
                             var link = $("<li><a class='nav-link text-dark' href = '" + data.records[i].url + "'>" + data.records[i].name + "</a></li>");
                             $("#navbar_list").append(link);
                         }
                     }
-            
+
                 }
-           });
+            });
         });
         function childDropdownTiems(childArr) {
-            var result ="";
+            var result = "";
             for (let j = 0; j < childArr.length; j++) {
                 result += "<a class='dropdown-item' href='" + childArr[j].url + "'>" + childArr[j].name + "</a>";
             }
             return result;
         }
     </script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

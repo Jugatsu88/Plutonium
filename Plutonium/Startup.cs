@@ -45,17 +45,23 @@ namespace Plutonium
             app.UseRouting();
 
             app.UseAuthorization();
-             
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                  name: "Crud",
-                  pattern: "{controller=Crud}/{action=Index}/{modelName?}");
+             "Crud",
+             "Crud/Index/{modelName}",
+             new { controller = "Crud", action = "Index" });
+
+
+
 
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                   name: "default",
+                   pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
             });
         }
     }
