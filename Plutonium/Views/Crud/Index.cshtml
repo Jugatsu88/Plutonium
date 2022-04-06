@@ -1,26 +1,65 @@
-﻿@model  Plutonium.ViewModels.CrudViewModel
- 
+﻿@model Plutonium.ViewModels.CrudViewModel
+
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>@Model.CRUDModel.Label</h1>
 
- 
-          <table id="memberlist">
-       <tbody>
-        @foreach (Plutonium.Classes.CRUDField c in Model.CRUDFields)
-         {
-          <tr>
-              
-                 <td>@c.Label</td>
-                 <td>@c.Name</td>
-                 <td>@c.Ordering</td>
-                 <td>@c.IsVisible</td>                 
-                 <td>@c.Type</td>
-           
-          </tr>
-         }
-       </tbody>
-       </table>
 
+<table id="memberlist">
+    <tbody>
+        @foreach (Plutonium.Classes.CRUDField c in Model.CRUDFields)
+        {
+            <tr>
+
+                <td>@c.Label</td>
+                <td>@c.Name</td>
+                <td>@c.Ordering</td>
+                <td>@c.IsVisible</td>
+                <td>@c.Type</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h2>Address Details</h2>
+
+<div id="AddressTable"></div>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $('#AddressTable').jtable({
+                title: 'Address Detail',
+                actions: {
+                    listAction: 'Address2/GetItems',
+                    createAction: 'Address2/Create',
+                    updateAction: 'Address2/Edit',
+                    deleteAction: 'Address2/Delete'
+                },
+                fields: {
+                    Id: {
+                        key: true,
+                        create: false,
+                        edit: false,
+                        list: false
+                    },
+                    Name: {
+                        title: 'Name',
+                        width: '15%'
+                    },
+                    Address1: {
+                        title: 'Address1',
+                        width: '15%'
+                    }
+                }
+            });
+            $('#AddressTable').jtable('reload');
+        });
+
+    </script>
+}

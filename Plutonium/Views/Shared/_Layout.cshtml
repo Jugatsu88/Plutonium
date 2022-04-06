@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Plutonium</title>
     <link href="~/lib/jtable/themes/metro/lightgray/jtable.css" rel="stylesheet" />
+    <link href="~/lib/jqueryui/themes/base/jquery-ui.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -36,6 +37,7 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
     <script src="~/lib/jtable/jquery.jtable.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
@@ -49,7 +51,7 @@
             //  $("#navbar_list").append(link);
             //      }
             $.ajax({
-                url: "https://localhost:44312/MenuItem/GetItems"
+                url: "MenuItem/GetItems"
             }).then(function (data) {
                 for (let i = 0; i < data.records.length; i++) {
                     //    if (data.records[i].parentId == null) {
