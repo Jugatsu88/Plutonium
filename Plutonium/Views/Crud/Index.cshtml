@@ -5,7 +5,8 @@
 }
 
 <h1>@Model.CRUDModel.Label</h1>
-
+ 
+  
 
 <table id="memberlist">
     <tbody>
@@ -32,14 +33,16 @@
 @section Scripts {
 
     <script>
+        @*'@Html.Raw(@Url.Action("GetItems/Link"))',*@
+       @* 'https://localhost:44312/Crud/Delete/Link'*@
         $(document).ready(function () {
             $('#AddressTable').jtable({
                 title: 'Address Detail',
                 actions: {
-                    listAction: 'Address2/GetItems',
-                    createAction: 'Address2/Create',
-                    updateAction: 'Address2/Edit',
-                    deleteAction: 'Address2/Delete'
+                    listAction: '/Crud/GetItems/@Model.ModelName',
+                    createAction: '/Crud/Create/Link',
+                    updateAction: '/Crud/Edit/Link',
+                    deleteAction: '/Crud/Delete/Link'
                 },
                 fields: {
                     Id: {
@@ -48,14 +51,10 @@
                         edit: false,
                         list: false
                     },
-                    Name: {
-                        title: 'Name',
-                        width: '15%'
-                    },
-                    Address1: {
-                        title: 'Address1',
-                        width: '15%'
-                    }
+
+               @Html.Raw(@Model.JsonFields)
+
+
                 }
             });
             $('#AddressTable').jtable('reload');

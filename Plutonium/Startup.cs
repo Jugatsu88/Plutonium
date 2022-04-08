@@ -24,6 +24,7 @@ namespace Plutonium
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddControllers().AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +56,11 @@ namespace Plutonium
              new { controller = "Crud", action = "Index" });
 
 
-
+          
+                endpoints.MapControllerRoute(
+             "Crud",
+             "Crud/GetItems/{modelName}",
+             new { controller = "Crud", action = "GetItems" });
 
                 endpoints.MapControllerRoute(
                    name: "default",

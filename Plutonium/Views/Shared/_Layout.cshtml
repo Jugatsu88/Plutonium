@@ -53,40 +53,31 @@
             $.ajax({
                 url: "MenuItem/GetItems"
             }).then(function (data) {
-                for (let i = 0; i < data.records.length; i++) {
-                    //    if (data.records[i].parentId == null) {
-                    //        var link = $("<li class='nav-item'><a class='nav-link text-dark' href = '" + data.records[i].url + "'>" + data.records[i].name + "</a></li>");
-                    //        $("#navbar_list").append(link);
-                    //    }
-                    var pid = data.records[i].id;
-                    //var clildren = data.records.filter(child => child.parentId <= pid);
-                    //  var clildren = data.records.filter(checkChild);
-                    if (data.records[i].parentId == null) { // No Parent - Top Level
-                        var clildren = data.records.filter(
+                for (let i = 0; i < data.Records.length; i++) {
+
+                    var pid = data.Records[i].Id;
+
+                    if (data.Records[i].ParentId == null) { // No Parent - Top Level
+                        var clildren = data.Records.filter(
                             function (e) {
-                                return e.parentId == pid;
+                                return e.ParentId == pid;
                             }
                         );
                         if (clildren.length != 0) {
                             // Parent has children
                             // add the Parent as a dropdown
                             var link = $("<li class='nav-item dropdown'>" +
-                                "<a class='nav-link dropdown-toggle text-dark' data-toggle='dropdown' href = '#' role='button' aria-haspopup='true' aria-expanded='false'>" + data.records[i].name + "<span class='caret'></span></a>" +
+                                "<a class='nav-link dropdown-toggle text-dark' data-toggle='dropdown' href = '#' role='button' aria-haspopup='true' aria-expanded='false'>" + data.Records[i].Name + "<span class='caret'></span></a>" +
                                 "<div class='dropdown-menu'>" +
                                 childDropdownTiems(clildren) +
-                                // "<a class='dropdown-item' href='#'>Action</a>" +
-                                //  "<ul class='dropdown-item text-dark'><li><a class='nav-link text-dark' href='child.Url'>childName</a></li></ul>" +
                                 "</div>" +
                                 "</li>");
                             // add the children
-
-
                             $("#navbar_list").append(link);
                         }
                         else {
                             // Parent has no children
-                            //  var link = $("<li class='nav-item'><a class='nav-link text-dark' href = '" + data.records[i].url + "'>" + data.records[i].name + "</a></li>");
-                            var link = $("<li><a class='nav-link text-dark' href = '" + data.records[i].url + "'>" + data.records[i].name + "</a></li>");
+                            var link = $("<li><a class='nav-link text-dark' href = '" + data.Records[i].Url + "'>" + data.Records[i].Name + "</a></li>");
                             $("#navbar_list").append(link);
                         }
                     }
@@ -97,7 +88,7 @@
         function childDropdownTiems(childArr) {
             var result = "";
             for (let j = 0; j < childArr.length; j++) {
-                result += "<a class='dropdown-item' href='" + childArr[j].url + "'>" + childArr[j].name + "</a>";
+                result += "<a class='dropdown-item' href='" + childArr[j].Url + "'>" + childArr[j].Name + "</a>";
             }
             return result;
         }
