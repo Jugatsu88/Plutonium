@@ -4,29 +4,31 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>@Model.CRUDModel.Label</h1>
- 
-  
+@*
 
-<table id="memberlist">
-    <tbody>
-        @foreach (Plutonium.Classes.CRUDField c in Model.CRUDFields)
-        {
-            <tr>
+        <h1>@Model.CRUDModel.Label</h1>
 
-                <td>@c.Label</td>
-                <td>@c.Name</td>
-                <td>@c.Ordering</td>
-                <td>@c.IsVisible</td>
-                <td>@c.Type</td>
+        <table id="memberlist">
+            <tbody>
+                @foreach (Plutonium.Classes.CRUDField c in Model.CRUDFields)
+                {
+                    <tr>
 
-            </tr>
-        }
-    </tbody>
-</table>
+                        <td>@c.Label</td>
+                        <td>@c.Name</td>
+                        <td>@c.Ordering</td>
+                        <td>@c.IsVisible</td>
+                        <td>@c.Type</td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
 
 
-<h2>Address Details</h2>
+    <h2>Address Details</h2>
+
+*@
 
 <div id="AddressTable"></div>
 
@@ -37,12 +39,12 @@
        @* 'https://localhost:44312/Crud/Delete/Link'*@
         $(document).ready(function () {
             $('#AddressTable').jtable({
-                title: 'Address Detail',
+                title: '@Model.CRUDModel.Label',
                 actions: {
                     listAction: '/Crud/GetItems/@Model.ModelName',
-                    createAction: '/Crud/Create/Link',
-                    updateAction: '/Crud/Edit/Link',
-                    deleteAction: '/Crud/Delete/Link'
+                    createAction: '/Crud/Create/@Model.ModelName',
+                    updateAction: '/Crud/Edit/@Model.ModelName',
+                    deleteAction: '/Crud/Delete/@Model.ModelName'
                 },
                 fields: {
                     Id: {

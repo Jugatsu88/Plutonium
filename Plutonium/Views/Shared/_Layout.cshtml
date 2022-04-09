@@ -51,7 +51,7 @@
             //  $("#navbar_list").append(link);
             //      }
             $.ajax({
-                url: "MenuItem/GetItems"
+                url: "@Url.Content("~/MenuItem/GetItems")"
             }).then(function (data) {
                 for (let i = 0; i < data.Records.length; i++) {
 
