@@ -56,11 +56,17 @@ namespace Plutonium
              new { controller = "Crud", action = "Index" });
 
 
-          
+
                 endpoints.MapControllerRoute(
              "Crud",
              "Crud/GetItems/{modelName}",
              new { controller = "Crud", action = "GetItems" });
+
+
+             //   endpoints.MapControllerRoute(
+             //"Crud",
+             //"Crud/Create/{modelName}/{o}",
+             //new { controller = "Crud", action = "Create" });
 
                 endpoints.MapControllerRoute(
                    name: "default",

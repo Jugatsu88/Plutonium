@@ -125,5 +125,23 @@ namespace Plutonium.Controllers
             //
 
         }
+
+
+        public JsonResult Create(string modelName, object o)
+        {
+
+             
+            string assemblyQualifiedName = String.Format("Plutonium.Models.{0}, Plutonium", modelName);
+             
+            Type typeArgument = Type.GetType(assemblyQualifiedName, true, true);
+            Type template = typeof(Bases.JSONController<>);
+            Type genericType = template.MakeGenericType(typeArgument);
+             
+            var instance = Activator.CreateInstance(genericType) as Interfaces.IJSONController;  
+            JsonResult result = instance.Create(o);
+            return result;
+             
+
+        }
     }
 }
