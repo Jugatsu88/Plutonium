@@ -5,17 +5,28 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Processes</h1> 
+<div class="card" id="ProcessesCard">
+    <div class="card-header">
+        <h2 class="display-4">Processes</h2>
+    </div>
+    <div class="card-body">
+        @foreach (var item in Model)
+        {
+            <div>
+                @item.Name (@item.Count.ToString())
+
+                @Html.ActionLink(
+                  "Kill Process",                   // Button Text
+                  "KillProcess",                    // controller action
+                  "Home",                           // controller
+                  new { processName = @item.Name }, // action parameters aka route values
+                  new { @class = "btn btn-danger", @style = "float:right" })  @* html attributes *@
+
+            </div>
+            <br />
+        }
+    </div>
 </div>
 
- 
 
-@foreach (var item in Model)
-{
-<div>
-    @item.Name (@item.Count.ToString())
-    @Html.ActionLink("Kill Process", "KillProcess", new { processName = @item.Name })
-    <hr />
-</div>
-}
+
