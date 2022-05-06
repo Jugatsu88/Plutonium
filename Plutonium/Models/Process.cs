@@ -13,9 +13,7 @@ namespace Plutonium.Models
         public virtual int Id { get; set; }
 
         [Column("Name")]
-        //[StringLength(12)]
         [Required(ErrorMessage = "Name is required.")]
-
         public string Name { get; set; }
 
 
