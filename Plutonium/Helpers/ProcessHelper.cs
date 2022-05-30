@@ -39,20 +39,16 @@ namespace Plutonium.Helpers
 
 
 
-        public static void KillProcessesByName(string ProcessesName)
+        public static List<int> KillProcessesByName(string ProcessesName)
         {
-            try
+            List<int> result = new List<int>();
+            foreach (Process proc in Process.GetProcessesByName(ProcessesName))  // PROCESS_NAME
             {
-                foreach (Process proc in Process.GetProcessesByName(ProcessesName))  // PROCESS_NAME
-                {
-                    //    Response.Write(string.Format("{0}:{1}<BR>", proc.ProcessName, proc.Id));
-                    proc.Kill();
-                }
+                //    Response.Write(string.Format("{0}:{1}<BR>", proc.ProcessName, proc.Id));
+                result.Add(proc.Id);
+                proc.Kill();
             }
-            catch (Exception ex)
-            {
-                Debug.Write(ex.Message);
-            }
+            return result;
         }
 
         public static bool IsRunning(string ProcessName)

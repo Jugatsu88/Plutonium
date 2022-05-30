@@ -39,7 +39,17 @@ namespace Plutonium.Controllers
         }
         public IActionResult KillProcess(string ProcessName)
         {
-            ProcessHelper.KillProcessesByName(ProcessName);
+             
+            try
+            {
+                _logger.LogInformation("Kill Process : {0}", ProcessName);
+                ProcessHelper.KillProcessesByName(ProcessName);
+            }
+            catch (System.Exception ex )
+            {
+                _logger.LogError(ex.ToString());
+            }
+          
             return RedirectToAction("Index");
 
         }
