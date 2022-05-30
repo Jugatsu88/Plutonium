@@ -77,7 +77,7 @@
                         }
                         else {
                             // Parent has no children
-                            var link = $("<li><a class='nav-link text-dark' href = '" + data.Records[i].Url + "'>" + data.Records[i].Name + "</a></li>");
+                            var link = $("<li><a class='nav-link text-dark' href = '" + window.location.protocol + "//" + window.location.host + data.Records[i].Url + "'>" + data.Records[i].Name + "</a></li>");
                             $("#navbar_list").append(link);
                         }
                     }
@@ -88,7 +88,7 @@
         function childDropdownTiems(childArr) {
             var result = "";
             for (let j = 0; j < childArr.length; j++) {
-                result += "<a class='dropdown-item' href='" + childArr[j].Url + "'>" + childArr[j].Name + "</a>";
+                result += "<a class='dropdown-item' href='" + window.location.protocol + "//" + window.location.host + childArr[j].Url + "'>" + childArr[j].Name + "</a>";
             }
             return result;
         }
