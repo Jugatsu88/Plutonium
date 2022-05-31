@@ -5,6 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Plutonium.BackgroundServices;
+using Plutonium.Helpers;
+using Plutonium.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +29,11 @@ namespace Plutonium
         {
             services.AddControllersWithViews();
             services.AddControllers().AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
+            services.AddSignalR();
+            //   services.AddHostedService<TimedHostedService>();
+            services.AddSingleton<ProcessBackgroundService>();
+            services.AddHostedService<BackgroundServiceStarter<ProcessBackgroundService>>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +58,16 @@ namespace Plutonium
 
             app.UseAuthorization();
 
+            //app.UseSignalR(routes =>
+            //{
+            //    routes.MapHub<ProcessHub>("/processHub");
+            //});
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<ProcessHub>("/hubs/processHub");
+                // other endpoints
+            });
 
             app.UseEndpoints(endpoints =>
             {
@@ -66,10 +84,10 @@ namespace Plutonium
              new { controller = "Crud", action = "GetItems" });
 
 
-             //   endpoints.MapControllerRoute(
-             //"Crud",
-             //"Crud/Create/{modelName}/{o}",
-             //new { controller = "Crud", action = "Create" });
+                //   endpoints.MapControllerRoute(
+                //"Crud",
+                //"Crud/Create/{modelName}/{o}",
+                //new { controller = "Crud", action = "Create" });
 
                 endpoints.MapControllerRoute(
                    name: "default",
