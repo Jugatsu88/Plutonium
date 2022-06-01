@@ -12,25 +12,27 @@ namespace Plutonium.BackgroundServices
 {
     public class ProcessBackgroundService : BackgroundService
     {
-        private readonly Subject<ProcessModel> _subject = new Subject<ProcessModel>();
+        private readonly Subject<List<ProcessModel>> _subject = new Subject<List<ProcessModel>>();
         private readonly Random _random = new Random();
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-              //  var x = ProcessHelper.GetMatchingProcesses().GroupBy(x=> x).ToArray();
-                var result = ProcessHelper.GetMatchingProcesses().GroupBy(n => n)
-                    .Select(c => new { Key = c.Key, Count = c.Count() });
 
+                List<ProcessModel> pvm = new List<ProcessModel>();
+                var matchingProcesses = ProcessHelper.GetMatchingProcesses();
+                pvm = matchingProcesses.GroupBy(x => x)
+                  .Select(o => new ProcessModel { ProcessName = o.Key, ProcessCount = o.Count(), LastUpdatedDate = DateTime.Now })
+                  .ToList<ProcessModel>();
 
-                _subject.OnNext(new ProcessModel { LastUpdatedDate = DateTime.Now, ProcessName = result.FirstOrDefault().Key, ProcessCount = result.FirstOrDefault().Count });  //_random.Next(0, 40) });
+                _subject.OnNext(pvm);  //_random.Next(0, 40) });
 
                 await Task.Delay(1000);
             }
         }
 
-        public IObservable<ProcessModel> StreamProcesses()
+        public IObservable<List<ProcessModel>> StreamProcesses()
         {
             return _subject;
         }

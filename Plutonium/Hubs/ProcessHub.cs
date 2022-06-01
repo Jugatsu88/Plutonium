@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Plutonium.BackgroundServices;
 using Plutonium.Extensions;
+using Plutonium.Helpers;
 using Plutonium.Models;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,16 @@ namespace Plutonium.Hubs
             _weatherBackgroundService = weatherBackgroundService;
         }
 
-        public ChannelReader<ProcessModel> StreamProcesses()
+        public ChannelReader<List<ProcessModel>> StreamProcesses()
         {
             return _weatherBackgroundService.StreamProcesses().AsChannelReader(10);
         }
-     
-}
+
+        public void KillProcess(string processesName)
+        {
+            ProcessHelper.KillProcessesByName(processesName);
+        }
+
+
+    }
 }
