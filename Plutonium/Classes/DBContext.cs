@@ -22,11 +22,13 @@ namespace Plutonium.Classes
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Map table names
-            modelBuilder.Entity<Link>().ToTable("Links", "dbo");
+            modelBuilder.Entity<BatchFile>().ToTable("BatchFiles", "dbo");
             modelBuilder.Entity<Button>().ToTable("Buttons", "dbo");
+            modelBuilder.Entity<CRUDLookup>().ToTable("tblLookup", "dbo");
+            modelBuilder.Entity<Link>().ToTable("Links", "dbo");
             modelBuilder.Entity<MenuItem>().ToTable("MenuItems", "dbo");
             modelBuilder.Entity<Process>().ToTable("Processes", "dbo");
-            modelBuilder.Entity<CRUDLookup>().ToTable("tblLookup", "dbo");
+            
 
             modelBuilder.Entity<Link>(entity =>
             {
