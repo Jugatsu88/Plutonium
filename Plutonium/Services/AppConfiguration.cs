@@ -10,5 +10,6 @@ namespace Plutonium.Services
         public AppConfiguration() { }
         public int BackgroundServiceDelay { get; set; }
         public string AppVersion { get; set; }
+        
     }
 }

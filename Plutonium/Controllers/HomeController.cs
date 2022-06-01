@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Plutonium.Helpers;
+using Plutonium.Interfaces;
 using Plutonium.Models;
 using Plutonium.ViewModels;
 using System.Collections.Generic;
@@ -12,50 +12,33 @@ namespace Plutonium.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProcessesService _processesService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IProcessesService processesService)
         {
             _logger = logger;
+            _processesService = processesService;
         }
-
         public IActionResult Index()
         {
-
-            ////TODO : add Signal R
-            //var matchingProcesses = ProcessHelper.GetMatchingProcesses();
-            //var ProcessCounts = matchingProcesses.GroupBy(x => x)
-            //    .Select (g => string.Format("{0} ({1})", g.Key, g.Count()))
-            //    .ToList<string>();
-            //return View(ProcessCounts);
-
-            List<ProcessViewModel> pvm = new List<ProcessViewModel>();
-            var matchingProcesses = ProcessHelper.GetMatchingProcesses();
-            pvm = matchingProcesses.GroupBy(x => x)
-              .Select(o => new ProcessViewModel { Name = o.Key, Count = o.Count() })
-              .ToList<ProcessViewModel>();
-
-            return View(pvm);
-
+            return View();
         }
         public IActionResult KillProcess(string ProcessName)
         {
-             
+
             try
             {
                 _logger.LogInformation("Kill Process : {0}", ProcessName);
-                ProcessHelper.KillProcessesByName(ProcessName);
+                _processesService.KillProcessesByName(ProcessName);
             }
-            catch (System.Exception ex )
+            catch (System.Exception ex)
             {
                 _logger.LogError(ex.ToString());
             }
-          
+
             return RedirectToAction("Index");
 
         }
-
-
-
 
 
         public IActionResult Privacy()

@@ -4,23 +4,21 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Plutonium.Models;
+using Plutonium.Services;
 
 namespace Plutonium.Classes
 {
     public class DBContext : DbContext
     {
-
         public DbSet<Link> Links { get; set; }
         public DbSet<Button> Buttons { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        public DBContext(DbContextOptions<DBContext> options) : base(options)
         {
-            optionsBuilder.UseSqlite("Filename=PlutoniumDatabase.db", options =>
-            {
-                options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
-            });
-            base.OnConfiguring(optionsBuilder);
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Map table names

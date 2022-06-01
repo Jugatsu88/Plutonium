@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Plutonium.Classes;
 using Plutonium.Helpers;
+using Plutonium.Services;
 using Plutonium.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,10 +16,14 @@ namespace Plutonium.Controllers
         List<CRUDModel> crudModels;
         List<CRUDField> crudFields;
 
-        private DBContext db = new DBContext();
+        private DBContext db ;
+        private readonly IOptions<AppConfiguration> _appConfiguration;
 
-        public CrudController()
+        public CrudController(IOptions<AppConfiguration> appConfiguration, DBContext context)
         {
+            _appConfiguration = appConfiguration;
+            db = context;
+
             db.Database.EnsureCreated();
 
             var theList = Assembly.GetExecutingAssembly().GetTypes()

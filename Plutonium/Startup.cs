@@ -6,13 +6,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Plutonium.BackgroundServices;
-using Plutonium.Helpers;
+using Plutonium.Classes;
 using Plutonium.Hubs;
+using Plutonium.Interfaces;
 using Plutonium.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Plutonium
 {
@@ -31,11 +33,12 @@ namespace Plutonium
             services.AddControllersWithViews();
             services.AddControllers().AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
             services.AddSignalR();
-            //   services.AddHostedService<TimedHostedService>();
             services.AddSingleton<ProcessBackgroundService>();
             services.AddHostedService<BackgroundServiceStarter<ProcessBackgroundService>>();
             services.Configure<AppConfiguration>(Configuration.GetSection("AppSettings"));
-
+            services.AddDbContext<DBContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSingleton<IProcessesService, ProcessesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

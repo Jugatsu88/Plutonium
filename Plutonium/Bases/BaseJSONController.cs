@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Plutonium.Classes;
 using Plutonium.Interfaces;
+using Plutonium.Services;
+using Microsoft.Extensions.Options;
 
 namespace Plutonium.Bases
 {
@@ -13,10 +15,13 @@ namespace Plutonium.Bases
     public class JSONController<T> : Controller, IJSONController
        where T : class
     {
-        private DBContext db = new DBContext();
+        private DBContext db;
+        private readonly IOptions<AppConfiguration> _appConfiguration;
 
-        public JSONController()
+        public JSONController(IOptions<AppConfiguration> appConfiguration, DBContext context)
         {
+            _appConfiguration = appConfiguration;
+            db = context;
             db.Database.EnsureCreated();
         }
 
@@ -31,7 +36,7 @@ namespace Plutonium.Bases
                 return Json(new { Result = "ERROR", Message = ex.GetBaseException().Message });
             }
         }
-         
+
         public JsonResult GetItems(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
         {
             try
@@ -78,9 +83,9 @@ namespace Plutonium.Bases
         {
             if (o is T) // Just to be sure, and maybe throw an exception
                 return Create(o as T);
-            else 
+            else
                 return Json(new { Result = "ERROR", Message = "Create object passed is not correct" });
-        } 
+        }
         public virtual JsonResult Create(T item)
         {
             try
@@ -157,13 +162,19 @@ namespace Plutonium.Bases
 
 
     }
-    public abstract class BaseJSONController<T> : Controller
-    where T : class
-    {
-        private DBContext db = new DBContext();
 
-        public BaseJSONController()
+
+    public abstract class BaseJSONController<T> : Controller
+  where T : class
+    {
+
+        private DBContext db;
+        public IOptions<AppConfiguration>  _appConfiguration;
+
+        public BaseJSONController(IOptions<AppConfiguration> appConfiguration, DBContext context)
         {
+            _appConfiguration = appConfiguration;
+            db = context;
             db.Database.EnsureCreated();
         }
         public virtual ActionResult Index()
