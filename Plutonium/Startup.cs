@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Plutonium.BackgroundServices;
 using Plutonium.Helpers;
 using Plutonium.Hubs;
+using Plutonium.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,8 @@ namespace Plutonium
             //   services.AddHostedService<TimedHostedService>();
             services.AddSingleton<ProcessBackgroundService>();
             services.AddHostedService<BackgroundServiceStarter<ProcessBackgroundService>>();
-            
+            services.Configure<AppConfiguration>(Configuration.GetSection("AppSettings"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Plutonium.Helpers;
 using Plutonium.Models;
+using Plutonium.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +15,18 @@ namespace Plutonium.BackgroundServices
 {
     public class ProcessBackgroundService : BackgroundService
     {
+
+        private readonly IOptions<AppConfiguration> _appConfiguration;
+        private readonly ILogger<ProcessBackgroundService> _logger;
+
         private readonly Subject<List<ProcessModel>> _subject = new Subject<List<ProcessModel>>();
         private readonly Random _random = new Random();
+
+        public ProcessBackgroundService(ILogger<ProcessBackgroundService> logger, IOptions<AppConfiguration> appConfiguration)
+        {
+            _logger = logger;
+            _appConfiguration = appConfiguration;
+        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -28,7 +41,7 @@ namespace Plutonium.BackgroundServices
 
                 _subject.OnNext(pvm);  //_random.Next(0, 40) });
 
-                await Task.Delay(1000);
+                await Task.Delay(_appConfiguration.Value.BackgroundServiceDelay * 1000); // Config delay in seconds
             }
         }
 
