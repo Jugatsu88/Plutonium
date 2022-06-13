@@ -7,8 +7,8 @@
     <div class="card-header">
         <h2 class="display-4">Processes</h2>
     </div>
- 
-        <div  class="card-body" id="processContainer"></div>
+
+    <div class="card-body" id="processContainer"></div>
 
 
 </div>
@@ -19,3 +19,27 @@
     <h6>Last Updated Date: <span class="lastUpdatedDate"></span></h6>
 </div>
 
+
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+
+        let connection = new signalR.HubConnectionBuilder().withUrl('@Url.Content("~/hubs/processHub")').build();
+        connection.start().then(() => connection.stream('StreamProcesses').subscribe({
+            next: (processes) => {
+                $('#processContainer').html('');
+                for (var process in processes) {
+                    var d = '<div>' + processes[process].processName + ' (' + processes[process].processCount + ')<a class="btn btn-danger" style="float:right"  href = "@Url.Content("~/Home/KillProcess")?processName=' + processes[process].processName + '"  id="a-' + processes[process].processName + '"/ >Kill Process<a/></div><br />';
+                    $("#processContainer").append(d);
+                }
+                document.querySelector(".lastUpdatedDate").innerHTML = processes[0].lastUpdatedDate;
+            },
+            error: (err) => console.error(err),
+            complete: () => { }
+        })).catch((err) => console.error(err));
+
+        });
+    </script>
+}

@@ -39,6 +39,8 @@ namespace Plutonium
             services.AddDbContext<DBContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSingleton<IProcessesService, ProcessesService>();
+            services.AddSingleton<IBatchFilesService, BatchFilesService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

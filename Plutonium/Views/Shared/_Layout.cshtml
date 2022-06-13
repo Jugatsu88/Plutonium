@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.Extensions.Options.IOptions<Plutonium.Services.AppConfiguration> AppSettings
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -33,7 +35,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - Plutonium - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            @AppSettings.Value.AppName - @AppSettings.Value.AppVersion <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/jquery.min.js"></script>
@@ -78,7 +80,10 @@
                         }
                         else {
                             // Parent has no children
-                            var link = $("<li><a class='nav-link text-dark' href = '" + window.location.protocol + "//" + window.location.host + data.Records[i].Url + "'>" + data.Records[i].Name + "</a></li>");
+                           // var link = $("<li><a class='nav-link text-dark' href = '" + window.location.protocol + "//" + window.location.host + data.Records[i].Url + "'>" + data.Records[i].Name + "</a></li>");
+                            var root = '@Url.Content("~")'
+                            var link = $("<li><a class='nav-link text-dark' href = '" + root + data.Records[i].Url + "'>" + data.Records[i].Name + "</a></li>");
+
                             $("#navbar_list").append(link);
                         }
                     }
@@ -89,7 +94,8 @@
         function childDropdownTiems(childArr) {
             var result = "";
             for (let j = 0; j < childArr.length; j++) {
-                result += "<a class='dropdown-item' href='" + window.location.protocol + "//" + window.location.host + childArr[j].Url + "'>" + childArr[j].Name + "</a>";
+                var root = '@Url.Content("~")'
+                result += "<a class='dropdown-item' href='" + root + childArr[j].Url + "'>" + childArr[j].Name + "</a>";
             }
             return result;
         }

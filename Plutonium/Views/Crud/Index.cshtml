@@ -41,10 +41,10 @@
             $('#AddressTable').jtable({
                 title: '@Model.CRUDModel.Label',
                 actions: {
-                    listAction: '/@Model.ModelName/GetItems',
-                    createAction: '/@Model.ModelName/Create',
-                    updateAction: '/@Model.ModelName/Edit',
-                    deleteAction: '/@Model.ModelName/Delete'
+                    listAction: '@Url.Content("~/" + @Model.ModelName + "/GetItems")',
+                    createAction: '@Url.Content("~/" + @Model.ModelName + "/Create")',  
+                    updateAction: '@Url.Content("~/" + @Model.ModelName + "/Edit")',
+                    deleteAction:'@Url.Content("~/" + @Model.ModelName + "/Delete")'
                 },
                 fields: {
                     Id: {

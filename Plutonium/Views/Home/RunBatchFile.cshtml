@@ -1,0 +1,16 @@
+﻿@model RunBatchFileViewModel
+
+
+@{
+    ViewData["Title"] = "RunBatchFile";
+}
+
+<div class="card" id="BatchFilesCard">
+    <div class="card-header">
+        <h2 class="display-4">Batch Files Result : @Model.FileName</h2>
+    </div>
+    <div class="card-body">
+        <p style="white-space: pre-line">@Model.Output</p>
+    </div>
+</div>
+

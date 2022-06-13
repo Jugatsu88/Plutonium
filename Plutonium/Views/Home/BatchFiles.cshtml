@@ -1,0 +1,29 @@
+﻿@model List<BatchFileViewModel>
+
+
+@{
+    ViewData["Title"] = "BatchFiles";
+}
+
+<div class="card" id="BatchFilesCard">
+    <div class="card-header">
+        <h2 class="display-4">Batch Files</h2>
+    </div>
+    <div class="card-body">
+        @foreach (var item in Model)
+        {
+            <div>
+                @item.FileName
+
+                @Html.ActionLink(
+                  "Run Batch File",                   // Button Text
+                  "RunBatchFile",                    // controller action
+                  "Home",                           // controller
+                  new { batchFileId = @item.Id }, // action parameters aka route values
+                  new { @class = "btn btn-danger", @style = "float:right" })  @* html attributes *@
+
+            </div>
+            <br />
+        }
+    </div>
+</div>
